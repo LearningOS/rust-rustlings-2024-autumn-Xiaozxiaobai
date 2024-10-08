@@ -9,6 +9,7 @@
 
 struct ColorClassicStruct {
     // TODO: Something goes here
+    test
 }
 
 struct ColorTupleStruct(/* TODO: Something goes here */);
