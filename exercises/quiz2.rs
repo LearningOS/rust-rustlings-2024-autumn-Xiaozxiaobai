@@ -19,7 +19,7 @@
 // - The output element is going to be a Vector of strings.
 //
 // No hints this time!
-
+test
 
 pub enum Command {
     Uppercase,
