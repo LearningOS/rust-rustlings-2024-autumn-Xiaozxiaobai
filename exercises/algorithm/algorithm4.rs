@@ -8,7 +8,7 @@ use std::cmp::Ordering;
 use std::fmt::Debug;
 
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 struct TreeNode<T>
 where
     T: Ord,
@@ -50,25 +50,64 @@ where
 
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
-        //TODO
+        let new_node = Box::new(TreeNode::<T>::new(value));
+        if let Some(ref mut node) = self.root {
+            Self::insert_into(node, new_node);
+        } else {
+            self.root = Some(new_node);
+        }
+    }
+
+    fn insert_into(node: &mut Box<TreeNode<T>>, new_node: Box<TreeNode<T>>) {
+        match new_node.value.cmp(&node.value) {
+            Ordering::Less => {
+                if let Some(ref mut left) = node.left {
+                    Self::insert_into(left, new_node);
+                } else {
+                    node.left = Some(new_node);
+                }
+            }
+            Ordering::Greater => {
+                if let Some(ref mut right) = node.right {
+                    Self::insert_into(right, new_node);
+                } else {
+                    node.right = Some(new_node);
+                }
+            }
+            Ordering::Equal => {
+                // 如果值相等，可以选择不插入，或者允许重复元素
+                // 这里选择不插入
+            }
+        }
     }
 
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
         //TODO
-        true
+        Self::search_in(&self.root, &value)
+    }
+
+    fn search_in(node: &Option<Box<TreeNode<T>>>, value: &T) -> bool {
+        match node {
+            Some(ref node) => match value.cmp(&node.value) {
+                Ordering::Less => Self::search_in(&node.left, value),
+                Ordering::Greater => Self::search_in(&node.right, value),
+                Ordering::Equal => true,
+            },
+            None => false,
+        }
     }
 }
 
-impl<T> TreeNode<T>
-where
-    T: Ord,
-{
-    // Insert a node into the tree
-    fn insert(&mut self, value: T) {
-        //TODO
-    }
-}
+// impl<T> TreeNode<T>
+// where
+//     T: Ord,
+// {
+//     // Insert a node into the tree
+//     fn insert(&mut self, value: T) {
+//         //TODO
+//     }
+// }
 
 
 #[cfg(test)]

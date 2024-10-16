@@ -29,8 +29,7 @@ impl Graph {
     fn bfs_with_return(&self, start: usize) -> Vec<usize> {
         
 		//TODO
-
-        let mut visit_order = vec![];
+        
         visit_order
     }
 }
